@@ -10,6 +10,11 @@ gem build sql_reporter.gemspec
 gem install sql_reporter
 ```
 
+or if you are using Bundler
+```
+bundle
+```
+
 ## Usage
 
 `sql_reporter original_branch.json improved_branch.json` 
