@@ -19,7 +19,7 @@ end
 
 ensure_params_passed
 begin
-  Reporter.new.generate_report
+  Reporter.new(SqlReporter::Parser.parse).generate_report
   print_success
 rescue StandardError => e
   STDERR.puts('[ERROR] Unexpected Error occured')

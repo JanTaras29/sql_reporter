@@ -15,6 +15,18 @@ module SqlReporter
       @duration = d
     end
 
+    def +(other)
+      self.class.new(sql, count + other.count, duration + other.duration)
+    end
+
+    def -(other)
+      self.class.new(sql, count - other.count, duration - other.duration)
+    end
+
+    def post_decimal_score(max_count)
+      count * (1 / (master_max_count + 1))
+    end
+
     def duration_formatted
       duration&.round(2)
     end
