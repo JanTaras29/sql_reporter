@@ -6,7 +6,7 @@ This is a gem that can be used for comparing sql_tracker reports for different b
 
 Simply run the following in terminal while in the repo directory (temporary solution while not in rubygems.org)
 ```
-gem build sql_reporter.gempspec
+gem build sql_reporter.gemspec
 gem install sql_reporter
 ```
 
