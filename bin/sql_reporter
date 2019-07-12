@@ -1,4 +1,4 @@
-#! usr/env/ruby
+#!/usr/bin/env ruby
 
 require 'json'
 # Data struct for keeping the query data
@@ -32,6 +32,7 @@ class Comparator
 	attr_accessor :master, :feature, :f0, :f1, :io
 
 	def initialize
+		ensure_params_passed
 		load_files
 	end
 
@@ -59,6 +60,7 @@ class Comparator
 		summary = totals.reduce(Totals.new(0,0)) {|acc, t| acc + t}.summary
 		io.write(summary)
 		io.close
+		print_success
 	end
 
 	private
@@ -97,9 +99,6 @@ class Comparator
 		"#{diff > 0 ? 'Duration gain' : 'Duration decrease' }[ms]: #{diff.abs}\n"
 	end
 	
-	def print_usage
-		puts "Usage: ruby comparison.rb first_file.json second_file.json"
-	end
 
 	def load_files
 		begin
@@ -114,14 +113,23 @@ class Comparator
 			@master = JSON.load(f0)['data'].values.map { |v| [v['sql'], Query.new(v['sql'], v['count'], v['duration'])] }.to_h
 			@feature = JSON.load(f1)['data'].values.map { |v| [v['sql'], Query.new(v['sql'], v['count'], v['duration'])] }.to_h
 		rescue JSON::ParserError
-			error 'One of the files provided is not a correctly formatted JSON file'
+			STDERR.puts 'One of the files provided is not a correctly formatted JSON file'
 		end
+	end
+
+	def print_usage
+		puts "Usage: sql_tracker master_file.json feature_file.json"
+	end
+
+	def print_success
+		puts "[Comparison Successful] Comparison report written to: #{`pwd`.strip + '/' + LOG_NAME}"
 	end
 
 	def ensure_params_passed
 		if ARGV.size != 2
+			STDERR.puts "[ERROR] Incorrect parameters passed"
 			print_usage
-			raise StandardError, 'You need to provide 2 files in order to compare them' 
+			exit(1)
 		end
 	end
 

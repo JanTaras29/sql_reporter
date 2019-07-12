@@ -1,10 +1,18 @@
 ## What this is?
 
-This is a simple script that can be used for comparing sql_tracker reports for different branches:
+This is a gem that can be used for comparing sql_tracker reports for different branches.
+
+## Setup
+
+Simply run the following in terminal while in the repo directory (temporary solution while not in rubygems.org)
+```
+gem build sql_reporter.gempspec
+gem install sql_reporter
+```
 
 ## Usage
 
-`ruby comparison.rb original_branch.json improved_branch.json` 
+`sql_reporter original_branch.json improved_branch.json` 
 
 
 The above will generate a comparison.log file with content akin to:
