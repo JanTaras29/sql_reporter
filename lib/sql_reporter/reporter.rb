@@ -36,25 +36,33 @@ class Reporter
 
 		io.write("################## SUMMARY #####################\n")
 		summary = totals.reduce(SqlReporter::Total.new(0,0)) {|acc, t| acc + t}.summary
-		io.write(summary)
+		generate_summary(summary)
 		io.close
 	end
 
 	private
 
+	def generate_summary(summary)
+		io.write(summary)
+	end
+
+	def generate_query_line(key, queries)
+		io.write("Difference for #{key}:\n")
+		io.write("Count difference: #{queries['master'].count} -> #{queries['feature'].count}\n")
+		io.write("Duration difference [ms]: #{queries['master'].duration_formatted} -> #{queries['feature'].duration_formatted}\n")
+	end
+
 	def summary_for_selected_triplets(collection, &block)
 		duration_diff = 0
 		count_diff = 0
 		process_triplets(collection, &block).each do |key, queries|
-			io.write("Difference for #{key}:\n")
-			io.write("Count difference: #{queries['master'].count} -> #{queries['feature'].count}\n")
-			io.write("Duration difference [ms]: #{queries['master'].duration_formatted} -> #{queries['feature'].duration_formatted}\n")
+			generate_query_line(key, queries)
 			diff = queries['feature'] - queries['master']
 			count_diff += diff.count
 			duration_diff += diff.duration_formatted
 		end
-		totals  = SqlReporter::Total.new(count_diff, duration_diff)
-		io.write(totals.summary)
+		totals = SqlReporter::Total.new(count_diff, duration_diff)
+		generate_summary(totals.summary)
 		totals
 	end
 

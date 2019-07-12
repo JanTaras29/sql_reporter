@@ -24,7 +24,7 @@ module SqlReporter
     end
 
     def post_decimal_score(max_count)
-      count * (1 / (master_max_count + 1))
+      count * (1 / (max_count + 1))
     end
 
     def duration_formatted
