@@ -1,15 +1,19 @@
 module SqlReporter
   class Reporter
+    LOG_NAME=''
+
     def initialize(parser_hsh)
       @fname0, @master = parser_hsh.entries[0]
       @fname1, @feature = parser_hsh.entries[1]
       @master_max_count = @master.values.map(&:count).max
+      @output = parser_hsh[:output] if parser_hsh.key?(:output)
     end
   
-    attr_accessor :master, :feature, :fname0, :fname1
+    attr_accessor :master, :feature, :fname0, :fname1, :output, :io
     attr_reader :master_max_count
 
     def generate_report
+      setup_io
 			before_generate_report
 			totals = []
 			
@@ -26,14 +30,15 @@ module SqlReporter
 			totals << summary_for_selected_differences(master.keys - feature.keys) { |key| master[key] }
 
 			before_summary
-			summary = totals.reduce(SqlReporter::Total.new(0,0)) {|acc, t| acc + t}.summary
-			generate_summary(summary)
-			after_generate_report
+			totals_sum = totals.reduce(SqlReporter::Total.new(0,0)) {|acc, t| acc + t}
+			generate_summary(totals_sum)
+      after_generate_report
+      print_success_message
 		end
 
     protected
 
-    def generate_summary(summary)
+    def generate_summary(totals)
       raise NotImplementedError
     end
   
@@ -50,7 +55,7 @@ module SqlReporter
         duration_diff += diff.delta_time
       end
       totals = SqlReporter::Total.new(count_diff, duration_diff)
-      generate_summary(totals.summary)
+      generate_summary(totals)
       totals
     end
   
@@ -94,6 +99,19 @@ module SqlReporter
 
     def before_summary
       raise NotImplementedError
+    end
+
+    private
+    def setup_io
+      @io = File.open(output_file, "w")
+    end
+
+    def print_success_message
+      puts "[Comparison Successful] Comparison report written to: #{`pwd`.strip + '/' + output_file}"
+    end
+
+    def output_file
+      output || self.class::LOG_NAME
     end
   end
 end

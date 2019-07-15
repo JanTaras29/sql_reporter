@@ -2,25 +2,8 @@
 
 require 'sql_reporter'
 
-def print_usage
-  puts "Usage: sql_tracker master_file.json feature_file.json"
-end
-
-def print_success
-  puts "[Comparison Successful] Comparison report written to: #{`pwd`.strip + '/' + SqlReporter::LogReporter::LOG_NAME}"
-end
-
-def ensure_params_passed
-  return if ARGV.size == 2
-  STDERR.puts "[ERROR] Incorrect parameters passed"
-  print_usage
-  exit(1)
-end
-
-ensure_params_passed
 begin
-  SqlReporter::ReporterFactory.new.log_reporter.generate_report
-  print_success
+  SqlReporter::ReporterFactory.new.for_format.generate_report
 rescue StandardError => e
   STDERR.puts('[ERROR] Unexpected Error occured')
   puts e.message

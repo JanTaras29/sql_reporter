@@ -7,16 +7,15 @@ module SqlReporter
 		LOG_NAME = "comparison.log"
 		HEADERS = ['Query', 'Count difference', 'Duration difference [ms]']
 
-		attr_accessor :io
 		attr_reader :lines
 
 		protected
 
-		def generate_summary(summary)
+		def generate_summary(totals)
 			table = TTY::Table.new(HEADERS, lines).render(:ascii, width: 300, resize: true)
 			io.write(table)
-			io.write(summary)
-			lines = []
+			io.write(totals.summary)
+			@lines = []
 		end
 
 		def generate_query_line(diff)
@@ -24,7 +23,6 @@ module SqlReporter
 		end
 
 		def before_generate_report
-			@io = File.open(LOG_NAME, "w")
 			@lines = []
     end
 
