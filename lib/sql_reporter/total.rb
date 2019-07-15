@@ -14,15 +14,15 @@ module SqlReporter
     end
 
     def queries_msg
-      "Queries #{query_diff > 0 ? 'spawned' : 'killed' }: #{query_diff.abs}\n" 
+      "\nQueries #{query_diff > 0 ? 'spawned' : 'killed' }: #{query_diff.abs}\n" 
     end
 
     def duration_msg
-      "Duration #{duration_diff > 0 ? 'gain' : 'decrease' }[ms]: #{duration_diff.abs.round(2)}\n"
+      "\nDuration #{duration_diff > 0 ? 'gain' : 'decrease' }[ms]: #{duration_diff.abs.round(2)}\n"
     end
 
     def summary
-      "##############\n" + queries_msg + duration_msg + "##############\n"
+       queries_msg + duration_msg + "\n"
     end
 
     def +(total)

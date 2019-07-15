@@ -16,4 +16,6 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'bin'
   spec.executables   = ['sql_reporter']
   spec.require_paths = ['lib']
+
+  spec.add_dependency('tty-table', '0.10.0')
 end

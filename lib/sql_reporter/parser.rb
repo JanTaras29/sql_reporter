@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+
 module SqlReporter
   class Parser
     def self.parse

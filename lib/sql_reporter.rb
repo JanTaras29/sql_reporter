@@ -1,5 +1,8 @@
 require 'sql_reporter/query'
 require 'sql_reporter/total'
 require 'sql_reporter/parser'
+require 'sql_reporter/difference'
 require 'sql_reporter/reporter'
+require 'sql_reporter/log_reporter'
+require 'sql_reporter/reporter_factory'
 require 'sql_reporter/version'
