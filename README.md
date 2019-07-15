@@ -22,26 +22,51 @@ bundle
 
 The above will generate a comparison.log file with content akin to:
 ```
-SQL Query Count Decreases between master.json -> ponyland.json
+SQL Count Decreases between samples/master.json -> samples/637.json
 ##########################################################
-Difference for SELECT COUNT(*) FROM `ponies` WHERE `ponies`.`business_id` = xxx AND `ponies`.`user_id` = xxx:
-Count drop: 24 -> 18
-SQL Query Count Increases between master.json -> ponyland.json
+
+Queries killed: 0
+
+Duration decrease[ms]: 0.0
+
+SQL Count Increases between samples/master.json -> samples/637.json
 ##########################################################
-Difference for SELECT `tails`.* FROM `tails` WHERE `tails`.`id` = xxx LIMIT xxx:
-Count drop: 220 -> 230
-Difference for SELECT `hooves`.* FROM `hooves` WHERE `hooves`.`id` = xxx ORDER BY name ASC LIMIT xxx:
-Count drop: 228 -> 238
-Difference for SELECT `apples`.* FROM `apples` WHERE `apples`.`business_id` = xxx LIMIT xxx:
-Count drop: 9 -> 10
-SQL New Queries between master.json -> ponyland.json
+
+Queries killed: 0
+
+Duration decrease[ms]: 0.0
+
+SQL Spawned between samples/master.json -> samples/637.json
 ##########################################################
-Difference for SELECT COUNT(*) FROM `ponies` WHERE `ponies`.`business_id` = xxx AND `remote_reports`.`user_id` = xxx AND (magic is not null):
-Count difference: 0 -> 9
-SQL Gone Queries between master.yml -> ponyland.json
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------+-------------------------------------+
+|Query                                                                                                                                                                                                                                 |Count difference             |Duration difference [ms]             |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------+-------------------------------------+
+|SELECT `email_default_messages`.* FROM `email_default_messages` WHERE `email_default_messages`.`email_defaults_id` = xxx AND `email_default_messages`.`locale` = xxx AND `email_default_messages`.`message_type` IN (xxx)             |0 -> 1                       |0.0 -> 1.76                          |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------+-------------------------------------+
+Queries spawned: 1
+
+Duration gain[ms]: 1.76
+
+SQL Gone between samples/master.json -> samples/637.json
 ##########################################################
-Difference for EXPLAIN PARTITIONS UPDATE `saddles` SET `total_amount` = xxx, `updated_at` = xxx WHERE `saddles`.`id` = xxx:
-Count difference: 1 -> 0
-Difference for UPDATE `saddles` SET `total_amount` = xxx, `updated_at` = xxx WHERE `saddles`.`id` = xxx:
-Count difference: 1 -> 0
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+--------------------+
+|Query                                                                                                                                                                                                                                                                   |Count diff… |Duration differenc… |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+--------------------+
+|SELECT `email_default_messages`.* FROM `email_default_messages` WHERE `email_default_messages`.`email_defaults_id` = xxx AND `email_default_messages`.`locale` = xxx AND `email_default_messages`.`message_type` IN (xxx)                                               |0 -> 1      |0.0 -> 1.76         |
+|SELECT `email_default_messages`.* FROM `email_default_messages` WHERE `email_default_messages`.`email_defaults_id` = xxx AND `email_default_messages`.`message_type` = xxx AND `email_default_messages`.`locale` = xxx ORDER BY `email_default_messages`.`id` ASC LIMI… |7 -> 0      |13.78 -> 0.0        |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+--------------------+
+Queries killed: 7
+
+Duration decrease[ms]: 13.78
+
+################## SUMMARY #####################
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+--------------------+
+|Query                                                                                                                                                                                                                                                                   |Count diff… |Duration differenc… |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+--------------------+
+|SELECT `email_default_messages`.* FROM `email_default_messages` WHERE `email_default_messages`.`email_defaults_id` = xxx AND `email_default_messages`.`locale` = xxx AND `email_default_messages`.`message_type` IN (xxx)                                               |0 -> 1      |0.0 -> 1.76         |
+|SELECT `email_default_messages`.* FROM `email_default_messages` WHERE `email_default_messages`.`email_defaults_id` = xxx AND `email_default_messages`.`message_type` = xxx AND `email_default_messages`.`locale` = xxx ORDER BY `email_default_messages`.`id` ASC LIMI… |7 -> 0      |13.78 -> 0.0        |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------+--------------------+
+Queries killed: 6
+
+Duration decrease[ms]: 12.02
 ```
