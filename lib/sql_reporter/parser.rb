@@ -50,8 +50,7 @@ module SqlReporter
         exit(1)
       end
 
-      hsh = { ARGV[0] => master, ARGV[1] => feature, format: options[:format] }
-      hsh.merge({output: options[:output]})
+      { ARGV[0] => master, ARGV[1] => feature, format: options[:format] }.merge(options)
     end
   end
 end
