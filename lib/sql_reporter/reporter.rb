@@ -39,11 +39,9 @@ module SqlReporter
     protected
 
     def generate_summary(totals)
-      raise NotImplementedError
     end
   
     def generate_query_line(diff)
-      raise NotImplementedError
     end
 
     def summary_for_selected_differences(collection, &block)
@@ -74,37 +72,31 @@ module SqlReporter
     end
 
     def before_generate_report
-      raise NotImplementedError
     end
 
     def after_generate_report
-      raise NotImplementedError
     end
 
     def before_increases
-      raise NotImplementedError
     end
 
     def before_decreases
-      raise NotImplementedError
     end
 
     def before_gone
-      raise NotImplementedError
     end
 
     def before_spawned
-      raise NotImplementedError
     end
 
     def before_summary
-      raise NotImplementedError
     end
 
-    private
     def setup_io
       @io = File.open(output_file, "w")
     end
+
+    private
 
     def print_success_message
       puts "[Comparison Successful] Comparison report written to: #{`pwd`.strip + '/' + output_file}"

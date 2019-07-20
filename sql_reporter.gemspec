@@ -18,5 +18,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency('tty-table', '0.10.0')
+  spec.add_dependency('gruff', '0.7.0')
   spec.add_development_dependency('pry')
 end

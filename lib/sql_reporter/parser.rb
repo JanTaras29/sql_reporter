@@ -10,7 +10,7 @@ module SqlReporter
       OptionParser.new do |opts|
         opts.banner = 'Usage: sql_reporter [options] file.json file2.json'
 
-        opts.on('-f', '--format FORMAT', String, 'Format of the output file (defaults to log, avaliable formats: log , json )') do |f|
+        opts.on('-f', '--format FORMAT', String, 'Format of the output file (defaults to log, avaliable formats: log , json, png )') do |f|
           options[:format] = f
         end
 

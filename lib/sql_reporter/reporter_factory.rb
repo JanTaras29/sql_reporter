@@ -12,6 +12,8 @@ module SqlReporter
         log_reporter
       when 'json'
         json_reporter
+      when 'png'
+        plot_reporter
       else
         log_reporter
       end
@@ -23,6 +25,10 @@ module SqlReporter
 
     def json_reporter
       SqlReporter::JsonReporter.new(parser_hsh)
+    end
+
+    def plot_reporter
+      SqlReporter::PlotReporter.new(parser_hsh)
     end
   end
 end
