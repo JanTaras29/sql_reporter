@@ -14,21 +14,27 @@ module SqlReporter
         json_reporter
       when 'png'
         plot_reporter
+      when 'pdf'
+        pdf_reporter
       else
-        log_reporter
+        pdf_reporter
       end
     end
 
     def log_reporter
-      SqlReporter::LogReporter.new(parser_hsh)
+      SqlReporter::Reporters::LogReporter.new(parser_hsh)
     end
 
     def json_reporter
-      SqlReporter::JsonReporter.new(parser_hsh)
+      SqlReporter::Reporters::JsonReporter.new(parser_hsh)
     end
 
     def plot_reporter
-      SqlReporter::PlotReporter.new(parser_hsh)
+      SqlReporter::Reporters::PlotReporter.new(parser_hsh)
+    end
+
+    def pdf_reporter
+      SqlReporter::Reporters::PdfReporter.new(parser_hsh)
     end
   end
 end
