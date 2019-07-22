@@ -13,7 +13,12 @@ module SqlReporter
 			protected
 
 			def generate_summary(totals)
-				table = TTY::Table.new(HEADERS, lines).render(:ascii, width: 300, resize: true)
+				table = TTY::Table.new(HEADERS, lines).render(
+					:ascii,
+					column_widths: [120, 40, 40],
+					multiline: true,
+					resize: true,
+				)
 				io.write(table)
 				io.write(totals.summary)
 				@lines = []

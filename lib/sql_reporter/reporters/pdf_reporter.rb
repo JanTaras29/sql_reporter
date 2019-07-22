@@ -17,13 +17,19 @@ module SqlReporter
         log_report.generate_report
         plot_report.generate_report
         Prawn::Document.generate(output_file) do |pdf|
-          pdf.text "Comparison report of #{@fname0} -> #{@fname1}"
+          pdf.font_size(20) { pdf.text "Comparison report of #{@fname0} -> #{@fname1}", align: :center, styles: [:bold] }
+          pdf.move_down 20
           pdf.text 'Count changes:'
-          pdf.image @plot_report.output_file
+          pdf.move_down 10
+          pdf.image @plot_report.output_file, position: :center, scale: 0.8
+          pdf.move_down 10
           pdf.text 'Timing changes:'
-          pdf.image('time_' + @plot_report.output_file)
-          pdf.text 'Summary'
-          pdf.text File.read(@log_report.output_file)
+          pdf.move_down 10
+          pdf.image('time_' + @plot_report.output_file, position: :center, scale: 0.8)
+          pdf.start_new_page
+          pdf.font_size(25) { pdf.text 'Summary', align: :center, styles: [:bold] }
+          pdf.move_down 10
+          pdf.font_size(6) { pdf.text File.read(@log_report.output_file) }
          end
       end
     end
