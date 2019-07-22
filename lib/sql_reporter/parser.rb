@@ -6,11 +6,11 @@ require 'optparse'
 module SqlReporter
   class Parser
     def self.parse
-      options = {format: 'log'}
+      options = {}
       OptionParser.new do |opts|
         opts.banner = 'Usage: sql_reporter [options] file.json file2.json'
 
-        opts.on('-f', '--format FORMAT', String, 'Format of the output file (defaults to pdf, avaliable formats: log , json, png )') do |f|
+        opts.on('-f', '--format FORMAT', String, 'Format of the output file (defaults to pdf, avaliable formats: log , json, png, pdf )') do |f|
           options[:format] = f
         end
 
@@ -50,7 +50,10 @@ module SqlReporter
         exit(1)
       end
 
-      { ARGV[0] => master, ARGV[1] => feature, format: options[:format] }.merge(options)
+      master_key = ARGV[0]
+      feature_key = ARGV[0] == ARGV[1] ? ARGV[0] + '_copy' : ARGV[1]
+
+      { master_key => master, feature_key => feature, format: options[:format] }.merge(options)
     end
   end
 end
