@@ -5,7 +5,7 @@ require 'tty-table'
 module SqlReporter
 	module Reporters
 		class LogReporter < Reporter
-			LOG_NAME = "comparison.log"
+			EXTENSION = '.log'
 			HEADERS = ['Query', 'Count difference', 'Duration difference [ms]']
 
 			attr_reader :lines

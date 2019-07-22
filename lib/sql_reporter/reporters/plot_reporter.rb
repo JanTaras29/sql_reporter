@@ -3,7 +3,7 @@ require 'gruff'
 module SqlReporter
   module Reporters
     class PlotReporter < Reporter
-      LOG_NAME = 'comparison.png'
+      EXTENSION = '.png'
 
       attr_reader :count_plot, :time_plot,  :diffs
 

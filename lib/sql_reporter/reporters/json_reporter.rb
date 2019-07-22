@@ -1,7 +1,7 @@
 module SqlReporter
   module Reporters
     class JsonReporter < Reporter
-      LOG_NAME = 'comparison.json'
+      EXTENSION = '.json'
 
       attr_reader :lines, :title, :body
 

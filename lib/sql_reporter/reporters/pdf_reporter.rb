@@ -3,7 +3,7 @@ require 'prawn'
 module SqlReporter
   module Reporters
     class PdfReporter< Reporter
-      LOG_NAME='comparison.pdf'
+      EXTENSION = '.pdf'
 
       attr_reader :plot_report, :table_report
 

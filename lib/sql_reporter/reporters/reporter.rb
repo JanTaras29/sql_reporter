@@ -1,7 +1,7 @@
 module SqlReporter
   module Reporters
     class Reporter
-      LOG_NAME=''
+      EXTENSION=''
 
       def initialize(parser_hsh)
         @fname0, @master = parser_hsh.entries[0]
@@ -38,7 +38,7 @@ module SqlReporter
       end
 
       def output_file
-        output || self.class::LOG_NAME
+        (output || 'comparison') + self.class::EXTENSION
       end
 
       protected

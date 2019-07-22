@@ -14,7 +14,7 @@ module SqlReporter
           options[:format] = f
         end
 
-        opts.on('-o', '--output FILE', String, 'File to write the report to') do |o|
+        opts.on('-o', '--output FILE', String, 'File to write the report to - without extension') do |o|
           options[:output] = o
         end
 
@@ -30,7 +30,7 @@ module SqlReporter
       end.parse!
 
       unless ARGV.size == 2
-        STDERR.puts "[ERROR] Incorrect parameters passed"
+        STDERR.puts "[ERROR] Incorrect number of parameters passed (2 files required)"
         exit(1)
       end
 
