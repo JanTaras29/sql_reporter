@@ -20,5 +20,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency('tty-table', '0.10.0')
   spec.add_dependency('gruff', '0.7.0')
   spec.add_dependency('prawn', '2.2.0')
+  spec.add_dependency('prawn-table', '0.2.2')
   spec.add_development_dependency('pry')
 end

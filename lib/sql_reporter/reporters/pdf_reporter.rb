@@ -5,16 +5,16 @@ module SqlReporter
     class PdfReporter< Reporter
       LOG_NAME='comparison.pdf'
 
-      attr_reader :plot_report, :log_report
+      attr_reader :plot_report, :table_report
 
       def initialize(parser_hsh)
         super(parser_hsh)
-        @log_report = SqlReporter::Reporters::LogReporter.new(parser_hsh)
+        @table_report = SqlReporter::Reporters::PdfTableReporter.new(parser_hsh)
         @plot_report = SqlReporter::Reporters::PlotReporter.new(parser_hsh)
       end
 
       def after_generate_report
-        log_report.generate_report
+        table_report.generate_report
         plot_report.generate_report
         Prawn::Document.generate(output_file) do |pdf|
           pdf.font_size(20) { pdf.text "Comparison report of #{@fname0} -> #{@fname1}", align: :center, styles: [:bold] }
@@ -29,7 +29,7 @@ module SqlReporter
           pdf.start_new_page
           pdf.font_size(25) { pdf.text 'Summary', align: :center, styles: [:bold] }
           pdf.move_down 10
-          pdf.font_size(6) { pdf.text File.read(@log_report.output_file) }
+          table_report.produce_table(pdf)
          end
       end
     end
