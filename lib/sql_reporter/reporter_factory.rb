@@ -16,6 +16,8 @@ module SqlReporter
         plot_reporter
       when 'pdf'
         pdf_reporter
+      when 'xls'
+        excel_reporter
       else
         pdf_reporter
       end
@@ -35,6 +37,10 @@ module SqlReporter
 
     def pdf_reporter
       SqlReporter::Reporters::PdfReporter.new(parser_hsh)
+    end
+
+    def excel_reporter
+      SqlReporter::Reporters::ExcelReporter.new(parser_hsh)
     end
   end
 end

@@ -1,6 +1,6 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sql_reporter'
+require 'sql_reporter/version'
 
 Gem::Specification.new do |spec|
   spec.authors       = ["Jan Taras"]
@@ -21,5 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('gruff', '0.7.0')
   spec.add_dependency('prawn', '2.2.0')
   spec.add_dependency('prawn-table', '0.2.2')
+  spec.add_dependency('spreadsheet', '1.2.4')
   spec.add_development_dependency('pry')
 end
+
