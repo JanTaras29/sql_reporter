@@ -32,15 +32,22 @@ module SqlReporter
 				lines.each_with_index do |l, i|
 					sheet.row(i + 1).concat [l.query_name, l.master.count, l.feature.count, l.master.duration_formatted, l.feature.duration_formatted]
 				end
-				sheet[lines.size + 1, 0] = 'Totals:'
-				sheet[lines.size + 1, 1] = lines.reduce(0) {|acc, l| acc + l.master.count }
-				sheet[lines.size + 1, 2] = lines.reduce(0) {|acc, l| acc + l.feature.count }
-				sheet[lines.size + 1, 3] = lines.reduce(0) {|acc, l| acc + l.master.duration_formatted }
-				sheet[lines.size + 1, 4] = lines.reduce(0) {|acc, l| acc + l.feature.duration_formatted }
-				sheet[lines.size + 3, 1] = 'Count Increase:'
-				sheet[lines.size + 3, 2] = sheet[lines.size + 1, 2] - sheet[lines.size + 1, 1]
-				sheet[lines.size + 3, 3] = 'Time Increase:'
-				sheet[lines.size + 3, 4] = sheet[lines.size + 1, 4] - sheet[lines.size + 1, 3]
+				totals_row_no = lines.size + 1
+				accumulated_row = totals_row_no + 2
+				sheet[totals_row_no, 0] = 'Totals:'
+				sheet[totals_row_no, 1] = lines.reduce(0) {|acc, l| acc + l.master.count }
+				sheet[totals_row_no, 2] = lines.reduce(0) {|acc, l| acc + l.feature.count }
+				sheet[totals_row_no, 3] = lines.reduce(0) {|acc, l| acc + l.master.duration_formatted }
+				sheet[totals_row_no, 4] = lines.reduce(0) {|acc, l| acc + l.feature.duration_formatted }
+				sheet[accumulated_row, 1] = 'Count Increase:'
+				sheet[accumulated_row, 2] = sheet[totals_row_no, 2] - sheet[totals_row_no, 1]
+				sheet[accumulated_row, 3] = 'Time Increase:'
+				sheet[accumulated_row, 4] = sheet[totals_row_no, 4] - sheet[totals_row_no, 3]
+
+				bold = Spreadsheet::Format.new(weight: :bold)
+				[totals_row_no, accumulated_row].each do |row|
+					5.times { |x| sheet.row(row).set_format(x, bold) }
+				end
 				book.write "./#{output_file}"
 			end
 
