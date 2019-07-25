@@ -8,10 +8,11 @@ module SqlReporter
         @fname1, @feature = parser_hsh.entries[1]
         @master_max_count = @master.values.map(&:count).max
         @output = parser_hsh[:output] if parser_hsh.key?(:output)
+        @disable_console = parser_hsh[:disable_console] if parser_hsh.key?(:disable_console)
       end
     
       attr_accessor :master, :feature, :fname0, :fname1, :output, :io
-      attr_reader :master_max_count
+      attr_reader :master_max_count, :disable_console
 
       def generate_report
         setup_io

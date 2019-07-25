@@ -14,6 +14,10 @@ module SqlReporter
           options[:format] = f
         end
 
+        opts.on('--disable-console', 'Disable outputting the report to terminal') do |f|
+          options[:disable_console] = true
+        end
+
         opts.on('-o', '--output FILE', String, 'File to write the report to - without extension') do |o|
           options[:output] = o
         end

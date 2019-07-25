@@ -57,6 +57,26 @@ module SqlReporter
 			def before_summary
 				io.write("################## SUMMARY #####################\n\n")
 			end
+
+			def setup_io
+				@io = Class.new do
+					attr_reader :file, :console_disabled
+
+					def initialize(file, disable_console = false)
+						@file = File.open(file, "w")
+						@console_disabled = disable_console
+					end
+
+					def write(content)
+						file.write(content)
+						STDOUT.write(content) unless console_disabled
+					end
+
+					def close
+						file.close
+					end
+				end.new(output_file, disable_console)
+      end
 			
 			private
 
