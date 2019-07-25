@@ -32,7 +32,10 @@ module SqlReporter
 
         before_summary
         totals_sum = totals.reduce(SqlReporter::Total.new(0,0)) {|acc, t| acc + t}
-        generate_summary(totals_sum)
+        additional_data = {}
+        additional_data[:reduced] = totals.reduce(0) {|acc, t| acc + t.query_drop}
+        additional_data[:spawned] = totals.reduce(0) {|acc, t| acc + t.query_gain}
+        generate_summary(totals_sum, **additional_data)
         after_generate_report
         print_success_message
       end
@@ -43,7 +46,7 @@ module SqlReporter
 
       protected
 
-      def generate_summary(totals)
+      def generate_summary(totals, **kwargs)
       end
     
       def generate_query_line(diff)

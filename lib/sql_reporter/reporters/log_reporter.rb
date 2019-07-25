@@ -12,7 +12,7 @@ module SqlReporter
 
 			protected
 
-			def generate_summary(totals)
+			def generate_summary(totals, **kwargs)
 				table = TTY::Table.new(HEADERS, lines).render(
 					:ascii,
 					column_widths: [120, 40, 40],
@@ -20,6 +20,8 @@ module SqlReporter
 					resize: true,
 				)
 				io.write(table)
+				io.write("Queries reduced: #{kwargs[:reduced]}\n") if kwargs.key? :reduced
+				io.write("Queries spawned: #{kwargs[:spawned]}\n") if kwargs.key? :spawned
 				io.write(totals.summary)
 				@lines = []
 			end
@@ -53,7 +55,7 @@ module SqlReporter
 			end
 
 			def before_summary
-				io.write("################## SUMMARY #####################\n")
+				io.write("################## SUMMARY #####################\n\n")
 			end
 			
 			private

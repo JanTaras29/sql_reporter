@@ -7,7 +7,7 @@ module SqlReporter
 
       protected
 
-      def generate_summary(totals)
+      def generate_summary(totals, **kwargs)
         hsh = { count_increase: totals.query_diff , duration_increase: totals.duration_diff.round(2) }
         hsh[:queries] = lines unless lines.empty?
         body[title] = hsh

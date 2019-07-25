@@ -13,8 +13,16 @@ module SqlReporter
       @duration_diff = duration
     end
 
+    def query_gain
+      query_diff > 0 ? query_diff : 0
+    end
+
+    def query_drop
+      query_diff > 0 ? 0 : -query_diff
+    end
+
     def queries_msg
-      "\nQueries #{query_diff > 0 ? 'spawned' : 'killed' }: #{query_diff.abs}\n" 
+      "\nQueries count change: #{query_diff}\n" 
     end
 
     def duration_msg

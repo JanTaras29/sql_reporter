@@ -16,7 +16,7 @@ module SqlReporter
 
 			protected
 
-			def generate_summary(totals)
+			def generate_summary(totals, **kwargs)
 				@totals = totals 
 			end
 
