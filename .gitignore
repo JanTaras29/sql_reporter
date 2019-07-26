@@ -4,3 +4,4 @@ comparison.*
 samples/*
 Gemfile.lock
 *.gem
+coverage

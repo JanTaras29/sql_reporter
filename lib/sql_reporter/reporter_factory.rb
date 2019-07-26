@@ -23,6 +23,8 @@ module SqlReporter
       end
     end
 
+    private
+
     def log_reporter
       SqlReporter::Reporters::LogReporter.new(parser_hsh)
     end
