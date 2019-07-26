@@ -30,7 +30,7 @@ module SqlReporter
     end
 
     def summary
-       queries_msg + duration_msg + "\n"
+      queries_msg + duration_msg + "\n"
     end
 
     def +(total)

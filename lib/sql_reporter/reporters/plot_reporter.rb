@@ -20,7 +20,7 @@ module SqlReporter
         time_plot.marker_count = 0
         time_plot.show_labels_for_bar_values = true
       end
-      
+
       def generate_query_line(diff)
         diffs << diff
       end

@@ -22,6 +22,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency('prawn', '2.2.0')
   spec.add_dependency('prawn-table', '0.2.2')
   spec.add_dependency('spreadsheet', '1.2.4')
-  spec.add_development_dependency('pry')
+  # spec.add_development_dependency('minitest-rails', '3.0')
+  spec.add_development_dependency('pry', '0.12.2')
+  spec.add_development_dependency('rspec')
 end
 

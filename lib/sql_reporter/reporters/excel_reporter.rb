@@ -65,7 +65,6 @@ module SqlReporter
 
 			def before_summary
 			end
-			
 		end
 	end
 end
