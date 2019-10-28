@@ -47,8 +47,12 @@ module SqlReporter
       end
   
       begin
-        master = JSON.load(f0)['data'].values.map { |v| [v['sql'], SqlReporter::Query.new(v['sql'], v['count'], v['duration'] || 0)] }.to_h
-        feature = JSON.load(f1)['data'].values.map { |v| [v['sql'], SqlReporter::Query.new(v['sql'], v['count'], v['duration'] || 0)] }.to_h
+        master = JSON.load(f0)['data'].values.map do |v| 
+          [v['sql'], SqlReporter::Query.new(v['sql'], v['count'], v['duration'] || 0, v['cached_count'] || 0)]
+        end.to_h
+        feature = JSON.load(f1)['data'].values.map do |v| 
+          [v['sql'], SqlReporter::Query.new(v['sql'], v['count'], v['duration'] || 0, v['cached_count'] || 0)]
+        end.to_h
       rescue JSON::ParserError
         STDERR.puts 'One of the files provided is not a correctly formatted JSON file'
         exit(1)

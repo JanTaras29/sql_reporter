@@ -20,10 +20,14 @@ module SqlReporter
         totals = []
         
         before_decreases
-        totals << summary_for_selected_differences(master.keys | feature.keys) { |key| master[key] && feature[key] && master[key].count > feature[key].count }
+        totals << summary_for_selected_differences(master.keys | feature.keys) do |key| 
+          master[key] && feature[key] && (master[key].count > feature[key].count || master[key].cached_count > feature[key].cached_count)
+        end
 
         before_increases
-        totals << summary_for_selected_differences(master.keys | feature.keys) { |key| master[key] && feature[key] && master[key].count < feature[key].count }
+        totals << summary_for_selected_differences(master.keys | feature.keys) do |key|
+          master[key] && feature[key] && (master[key].count < feature[key].count || master[key].cached_count < feature[key].cached_count)
+        end
 
         before_spawned
         totals << summary_for_selected_differences(feature.keys - master.keys) { |key| feature[key] }
@@ -32,7 +36,7 @@ module SqlReporter
         totals << summary_for_selected_differences(master.keys - feature.keys) { |key| master[key] }
 
         before_summary
-        totals_sum = totals.reduce(SqlReporter::Total.new(0,0)) {|acc, t| acc + t}
+        totals_sum = totals.reduce(SqlReporter::Total.new(0,0,0)) {|acc, t| acc + t}
         additional_data = {}
         additional_data[:reduced] = totals.reduce(0) {|acc, t| acc + t.query_drop}
         additional_data[:spawned] = totals.reduce(0) {|acc, t| acc + t.query_gain}
@@ -55,13 +59,15 @@ module SqlReporter
 
       def summary_for_selected_differences(collection, &block)
         duration_diff = 0
+        cached_count_diff = 0
         count_diff = 0
         process_differences(collection, &block).each do |diff|
           generate_query_line(diff)
           count_diff += diff.delta_count
+          cached_count_diff += diff.delta_cached_count
           duration_diff += diff.delta_time
         end
-        totals = SqlReporter::Total.new(count_diff, duration_diff)
+        totals = SqlReporter::Total.new(count_diff, duration_diff, cached_count_diff)
         generate_summary(totals)
         totals
       end

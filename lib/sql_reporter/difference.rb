@@ -1,4 +1,5 @@
 module SqlReporter
+  # Difference between 2 Query objects
   class Difference
     attr_reader :master, :feature, :query_name
 
@@ -10,6 +11,10 @@ module SqlReporter
 
     def delta_count
       (feature - master).count
+    end
+
+    def delta_cached_count
+      (feature - master).cached_count
     end
 
     def delta_time

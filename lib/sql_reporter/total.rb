@@ -2,15 +2,17 @@
 
 module SqlReporter
   class Total
-    attr_accessor :query_diff, :duration_diff
+    attr_accessor :query_diff, :cached_query_diff, :duration_diff
     def initialize
       @query_diff = 0
       @duration_diff = 0
+      @cached_query_diff = 0
     end
 
-    def initialize(query, duration)
+    def initialize(query, duration, cached)
       @query_diff = query
       @duration_diff = duration
+      @cached_query_diff = cached
     end
 
     def query_gain
@@ -34,7 +36,7 @@ module SqlReporter
     end
 
     def +(total)
-      self.class.new(query_diff + total.query_diff, duration_diff + total.duration_diff)
+      self.class.new(query_diff + total.query_diff, duration_diff + total.duration_diff, cached_query_diff + total.cached_query_diff)
     end
   end
 end

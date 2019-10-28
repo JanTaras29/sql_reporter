@@ -6,7 +6,7 @@ module SqlReporter
 	module Reporters
 		class LogReporter < Reporter
 			EXTENSION = '.log'
-			HEADERS = ['Query', 'Count difference', 'Duration difference [ms]']
+			HEADERS = ['Query', 'Count difference', 'Cached SQLs difference', 'Duration difference [ms]']
 
 			attr_reader :lines
 
@@ -15,7 +15,7 @@ module SqlReporter
 			def generate_summary(totals, **kwargs)
 				table = TTY::Table.new(HEADERS, lines).render(
 					:ascii,
-					column_widths: [120, 40, 40],
+					column_widths: [100, 40, 40, 40],
 					multiline: true,
 					resize: true,
 				)
@@ -27,7 +27,7 @@ module SqlReporter
 			end
 
 			def generate_query_line(diff)
-				lines << [diff.query_name, "#{diff.master.count} -> #{diff.feature.count}", "#{diff.master.duration_formatted} -> #{diff.feature.duration_formatted}"]
+				lines << [diff.query_name, "#{diff.master.count} -> #{diff.feature.count}", "#{diff.master.cached_count} -> #{diff.feature.cached_count}", "#{diff.master.duration_formatted} -> #{diff.feature.duration_formatted}"]
 			end
 
 			def before_generate_report
