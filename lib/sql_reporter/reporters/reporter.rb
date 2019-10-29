@@ -21,12 +21,16 @@ module SqlReporter
         
         before_decreases
         totals << summary_for_selected_differences(master.keys | feature.keys) do |key| 
-          master[key] && feature[key] && (master[key].count > feature[key].count || master[key].cached_count > feature[key].cached_count)
+          master[key] && feature[key] && (
+            master[key].count > feature[key].count || (master[key].count == feature[key].count &&  master[key].cached_count > feature[key].cached_count)
+          )
         end
 
         before_increases
         totals << summary_for_selected_differences(master.keys | feature.keys) do |key|
-          master[key] && feature[key] && (master[key].count < feature[key].count || master[key].cached_count < feature[key].cached_count)
+          master[key] && feature[key] && (
+            master[key].count < feature[key].count || (master[key].count == feature[key].count && master[key].cached_count < feature[key].cached_count)
+          )
         end
 
         before_spawned
